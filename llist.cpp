@@ -12,7 +12,7 @@
 *
 *FILE: storage.cpp
 *
-*DESCRIPTION: Contains the storage functions for project 2
+*DESCRIPTION: Contains all the storage functions for project 2
 *
 *******************/
 
