@@ -1,0 +1,6 @@
+#!/bin/sh
+get s.ui.c
+get s.storage.c
+get s.headers.h
+get s.makefile
+
