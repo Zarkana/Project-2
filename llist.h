@@ -13,15 +13,15 @@ class llist
 		record *   	reverse(record *);
 		void 		cleanup();
 
-	public
+	public:
 		llist();
 		llist(char[]);
-		~llist();
-		int addRecord(char[], char [], int, char []);
+		/*~llist();*/
+/*		int addRecord(char[], char [], int, char []);
 		int printRecord(char[]);
-		int modifyRecord(char[], char [], char []);
+		int modifyRecord(char[], char [], char []);*/
 		void printAll();
-		int deleteRecord(char[]);
-		void reverse();
+/*		int deleteRecord(char[]);
+		void reverse();*/
 };
 #endif

@@ -17,6 +17,7 @@
 *******************/
 
 #include "record.h"
+#include "llist.h"
 #include <iostream>
 #include <iomanip> 
 #include <string>
@@ -31,6 +32,8 @@ int main( int argc, char *argv[])
     char line[256];
     int arg1;
     int isint;
+
+    llist myllist("crack.txt"); 
 
     char filename[] = "test.txt";    
 
@@ -67,19 +70,12 @@ int main( int argc, char *argv[])
           cout << "Enter name: ";
 
           cin.getline(uname, 25);
-
-          /* Get the name, with size limit. */
-          /*fgets (uname, 25, stdin);*/
-
-          /* Remove trailing newline, if there. */
-          /*if ((strlen(uname)>0) && (uname[strlen (uname) - 1] == '\n'))
-              uname[strlen (uname) - 1] = '\0';*/
               
           cout << "Enter address: ";
           getfield(uaddr, 80);
               
-          cout << "Enter year of birth: ";                        
-          /*scanf("%d", &uyob);*/
+          cout << "Enter year of birth: ";        
+          
           cin >> uyob;
 
 
@@ -110,9 +106,9 @@ int main( int argc, char *argv[])
 
            printRecord(start, uname);
            break;
-       case 4:
+       case 4:            
+            myllist.printAll();
 
-            printAllRecords(start);
             break; 
        case 5:
           cout << "Enter name: ";

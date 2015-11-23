@@ -17,11 +17,42 @@
 *******************/
 
 #include "record.h"
+#include "llist.h"
 #include <iostream>
 #include <fstream>
 #include <iomanip> 
 #include <string>
 using namespace std;
+
+
+/*****************
+*
+*Function name: llist
+*
+*DESCRIPTION: default constructor for the linked list
+*
+*
+*****************/
+llist::llist(void)
+{    
+    strcpy(this->filename, "test.txt");
+}
+
+/*****************
+*
+*Function name: llist
+*
+*DESCRIPTION: default constructor for the linked list
+*
+*Paramaters: name: the name of the file to be read and written
+*
+*****************/
+llist::llist(char *name)
+{    
+    strcpy(this->filename, name);
+}
+
+
 
 /*****************
 *
@@ -170,6 +201,7 @@ int printRecord(struct record *start, char *uname)
 }
 
 
+
 /*****************
 *
 *Function name: printAllRecords
@@ -179,7 +211,7 @@ int printRecord(struct record *start, char *uname)
 *Paramaters: start: an array of record structures storing friends
 *
 *****************/
-void printAllRecords(struct record *start)
+void llist::printAll()
 {   
 
     int totalPrints = 0;
@@ -194,6 +226,8 @@ void printAllRecords(struct record *start)
 
     cout << "Printing every record: \n";
 
+    cout << "the filename:" << this->filename << "\n";
+
     while (temp != NULL)
     {
         totalPrints++;
@@ -206,6 +240,7 @@ void printAllRecords(struct record *start)
         cout << "\nThe list is empty.\n";
     }
 }
+
 
 /*****************
 *
@@ -228,16 +263,24 @@ void reverse()
 
     cout << "Reversing the list of records: \n";
 
-/*    while (temp != NULL)
+/* 
+    struct Node* reverse(struct Node** head) 
     {
-        totalPrints++;
-        cout << "\nName: " << (*temp).name << "\nAddress:" << (*temp).address << "\nTel Number:" << (*temp).telno << "\nBirthyear:" << (*temp).yearofbirth << "\n";
-        temp = (*temp).next;
-    }
+        Node *parent = *head;
+        Node *me = parent->next;
+        Node *child = me->next;
 
-    if(totalPrints == 0)
-    {
-        cout << "\nThe list is empty.\n";
+     
+        parent->next = NULL;
+        while(child) {
+            me->next = parent;
+            parent = me;
+            me = child;
+            child = child->next;
+        }
+        me->next = parent;
+        *head = me;
+        return *head;
     }
 */}
 
