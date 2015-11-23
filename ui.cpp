@@ -90,7 +90,7 @@ int main( int argc, char *argv[])
           cout << "Enter phone number: ";   
           scanf("%s", &utelno);
    
-          /*modifyRecord(start, uname, uaddr, utelno);*/
+          myllist.modifyRecord(uname, uaddr, utelno);
              
           break; 
        case 3:
@@ -108,12 +108,12 @@ int main( int argc, char *argv[])
 
           cin.getline(uname, 25);
       
-          /*deleteRecord(&start, uname);*/
+          myllist.deleteRecord(uname);
    
           break;
        case 6:
           
-          /*reverse();*/
+          myllist.reverse();
           break;          
        case 7:
           /*End program*/
@@ -122,7 +122,7 @@ int main( int argc, char *argv[])
           break; 
       }  
     }    
-    
+
     return 0;
 }
 

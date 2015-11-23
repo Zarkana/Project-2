@@ -31,7 +31,6 @@ using namespace std;
 *
 *DESCRIPTION: default constructor for the linked list
 *
-*
 *****************/
 llist::llist(void)
 {    
@@ -56,6 +55,13 @@ llist::llist(char *name)
     this->readfile();
 }
 
+/*****************
+*
+*Function name: ~llist
+*
+*DESCRIPTION: default deconstructor for the linked list
+*
+*****************/
 llist::~llist(){
     this->writefile();    
     this->cleanup();
@@ -67,8 +73,8 @@ llist::~llist(){
 *
 *DESCRIPTION: create a record even if it already exists with the same name
 *
-*Paramaters: start: a pointer to an array of record structures storing friends, name: the name of friend, address: the address of friend,
-*            yearofbirth: the friends year of birth, telNumber: the number of the friend 
+*Paramaters: uname: the name of friend, address: the address of friend, yearofbirth: the friends year of birth, telNumber: the number of the friend
+*             
 *
 *****************/
 int llist::addRecord(char *uname, char *uaddr, int uyob, char *utelno)
@@ -125,19 +131,18 @@ int llist::addRecord(char *uname, char *uaddr, int uyob, char *utelno)
 *
 *DESCRIPTION: modify only all records with the same name
 *
-*Paramaters: start: an array of record structures storing friends, name: the name of friend, address: the address of friend,
-*            telNumber: the number of the friend 
+*Paramaters: uname: the name of friend, address: the address of friend, telNumber: the number of the friend
+*             
 *
 *****************/
-int modifyRecord(struct record *start, char *uname, char *uaddr, char *utelno)
+int llist::modifyRecord(char *uname, char *uaddr, char *utelno)
 {
     int totalModifies = 0;
-    struct record *temp = start;
+    struct record *temp = this->start;
 
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
-        cout << "Called Function: modifyRecord(struct record *, char *, char *, char *)\n";
-        cout << "struct record * = " << start << ", \n";
+        cout << "Called Function: modifyRecord(char *, char *, char *)\n";
         cout << "char * = " << uname << "\n";
         cout << "char * = " << uaddr << "\n";
         cout << "char * = " << utelno << "\n";
@@ -170,13 +175,13 @@ int modifyRecord(struct record *start, char *uname, char *uaddr, char *utelno)
 *
 *DESCRIPTION: print on the screen information for all records with the name specified
 *
-*Paramaters: start: name: the name of friend 
+*Paramaters: uname: the name of friend 
 *
 *****************/
 int llist::printRecord(char *uname)
 {
-    
     int totalPrints = 0;
+    struct record * temp = this->start;
 
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
@@ -187,14 +192,14 @@ int llist::printRecord(char *uname)
 
     cout << "Printing the record with the name: " << uname << "\n";
 
-    while (start != NULL)
+    while (temp != NULL)
     {
-        if (strcmp(uname, (*start).name)== 0)
+        if (strcmp(uname, (*temp).name)== 0)
         {
             totalPrints++;
-            cout << "\nName: " << (*start).name << "\nAddress:" << (*start).address << "\nTel Number:" << (*start).telno << "\nBirthyear:" << (*start).yearofbirth << "\n";
+            cout << "\nName: " << (*temp).name << "\nAddress:" << (*temp).address << "\nTel Number:" << (*temp).telno << "\nBirthyear:" << (*temp).yearofbirth << "\n";
         }
-        start = (*start).next;
+        temp = (*temp).next;
     }
 
     if(totalPrints == 0)
@@ -217,14 +222,14 @@ int llist::printRecord(char *uname)
 void llist::printAll()
 {   
 
-    int totalPrints = 0;
-    struct record * temp = this->start;    
-
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
-        cout << "Called Function: printAllRecords(struct record *)\n";        
+        cout << "Called Function: printAllRecords()\n";        
         cout << "----- DEBUG -----\n";
     #endif
+
+    int totalPrints = 0;
+    struct record * temp = this->start;    
 
     cout << "\nPrinting every record: \n";
 
@@ -254,9 +259,6 @@ void llist::printAll()
 void llist::reverse()
 {   
 
-/*    int totalPrints = 0;
-    struct record * temp = start;
-*/
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
         cout << "Called Function: reverse()\n";
@@ -291,36 +293,36 @@ void llist::reverse()
 *
 *DESCRIPTION: delete all records, including duplicates based on the name 
 *
-*Paramaters: start: an array of record structures storing friends, name: the name of friend 
+*Paramaters: uname: the name of friend 
 *
 *****************/
-int deleteRecord(struct record **start, char *uname)
+int llist::deleteRecord(char *uname)
 {
     int totalDeletes = 0;
-    struct record *temp = *start;
-    struct record *prev = *start;
+    struct record *temp = this->start;
+    struct record *prev = /* *start*/this->start;
 
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
         cout << "Called Function: deleteRecord(char *)\n";
         cout << "char * = " << uname << "\n";
         cout << "----- DEBUG -----\n";
-    #endif   
+    #endif
 
     cout << "Deleting records that match: " << uname << "\n";
 
     while (temp != NULL)
     {
-        if (strcmp((*temp).name,uname) != 0)
+        if (strcmp((*temp).name, uname) != 0)
         {
             prev = temp;
             temp = (*temp).next;
         }
         else 
         {        
-            if((*temp).next == (*(*start)).next)/*If first*/
+            if((*temp).next == (*(this->start)).next)/*If first*/
             {   
-                *start = (*prev).next;
+                this->start = (*prev).next;
 
                 free(temp);             
                 totalDeletes++;
@@ -366,10 +368,8 @@ int deleteRecord(struct record **start, char *uname)
 *
 *DESCRIPTION: destroy all of the records in the linked list and reset the start of the list to NULL
 *
-*Paramaters: start: an array of record structures storing friends, name: the name of the file to be written
-*
 *****************/
-void llist::cleanup(/*struct record **start*/)
+void llist::cleanup()
 {
 
     struct record *temp = this->start;
@@ -403,17 +403,12 @@ void llist::cleanup(/*struct record **start*/)
 *****************/
 int llist::readfile()
 {
- /*
-    FILE *input;
-    char *mode = "r";
-*/
     char string [100];
     char inputChar;
     int i = 0;    
     int tab = 0;    
 
     ifstream input;
-    /*input = fopen(filename, mode);*/
     input.open(this->filename, ios::in);
 
     char name [100];
@@ -496,18 +491,12 @@ int llist::readfile()
 *
 *DESCRIPTION: writes content into a file
 *
-*Paramaters: start: an array of record structures storing friends, name: the name of the file to be written
-*
 *****************/
 int llist::writefile()
 {
 
     struct record *temp = this->start;
-/*
-    FILE *output;
-    char *mode = "w";  
 
-    output = fopen(filename, mode);*/
     ofstream output;
     output.open(this->filename);
 
@@ -534,6 +523,5 @@ int llist::writefile()
     }
 
     output.close();
-    /*fclose(output);*/
     return 0;
 }

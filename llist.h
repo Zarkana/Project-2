@@ -21,7 +21,7 @@ class llist
 		int printRecord(char[]);
 		int modifyRecord(char[], char [], char []);
 		void printAll();
-/*		int deleteRecord(char[]);*/
+		int deleteRecord(char[]);
 		void reverse();
 };
 #endif
