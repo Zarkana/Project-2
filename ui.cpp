@@ -38,12 +38,9 @@ int main( int argc, char *argv[])
 
     llist myllist("test.txt"); 
 
-    char filename[] = "test.txt";        
-
-    /*readfile(filename);*/
-
-    while(programEnd != 1){
-        char prompt[] = "\nChoose one of the following,\n\t[1]Add a new record in the database\n\t[2]Modify a record in the database using the uname as the key\n\t[3]Print information about a record using the uname as the key\n\t[4]Print all information in the database\n\t[5]Delete an existing record from the database using the name as a key\n\t[6]Reverse the list\n\t[7]Quit the program\n"; 
+    while(programEnd != 1)
+    {
+        char prompt[] = "\nChoose one of the following,\n\t[1]Add a new record in the database\n\t[2]Modify a record in the database using the name as the key\n\t[3]Print information about a record using the name as the key\n\t[4]Print all information in the database\n\t[5]Delete an existing record from the database using the name as a key\n\t[6]Reverse the list\n\t[7]Quit the program\n"; 
 
         cout << prompt << "\n";
         while (1) {            
@@ -76,7 +73,6 @@ int main( int argc, char *argv[])
 
           cin >> uyob;
 
-
           cout << "Enter phone number: ";              
           scanf("%s", &utelno);
 
@@ -102,7 +98,7 @@ int main( int argc, char *argv[])
 
           cin.getline(uname, 25);
 
-           /*printRecord(start, uname);*/
+           myllist.printRecord(uname);
            break;
        case 4:            
             myllist.printAll();
@@ -124,13 +120,9 @@ int main( int argc, char *argv[])
           programEnd = 1;
           cout << "Program Ended\n";
           break; 
-       }  
-       
-    }
-
-/*    writefile(start, filename); 
-    cleanup(&start);*/
-
+      }  
+    }    
+    
     return 0;
 }
 

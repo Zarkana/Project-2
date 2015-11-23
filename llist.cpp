@@ -56,7 +56,10 @@ llist::llist(char *name)
     this->readfile();
 }
 
-
+llist::~llist(){
+    this->writefile();    
+    this->cleanup();
+};
 
 /*****************
 *
@@ -73,8 +76,7 @@ int llist::addRecord(char *uname, char *uaddr, int uyob, char *utelno)
 
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
-        cout << "Called Function: addRecord(struct record **, char *, char *, int, char *)\n";
-        cout << "struct record ** = " << start <<" \n";
+        cout << "Called Function: addRecord(char *, char *, int, char *)\n";
         cout << "char * = " << uname << "\n";
         cout << "char * = " << uaddr << "\n";
         cout << "int = " << uyob << "\n";       
@@ -168,18 +170,17 @@ int modifyRecord(struct record *start, char *uname, char *uaddr, char *utelno)
 *
 *DESCRIPTION: print on the screen information for all records with the name specified
 *
-*Paramaters: start: an array of record structures storing friends, name: the name of friend 
+*Paramaters: start: name: the name of friend 
 *
 *****************/
-int printRecord(struct record *start, char *uname)
+int llist::printRecord(char *uname)
 {
     
     int totalPrints = 0;
 
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
-        cout << "Called Function: printRecord(struct record *, char *)\n";
-        cout << "struct record * = " << start << "\n";
+        cout << "Called Function: printRecord(char *)\n";
         cout << "char * = " << uname << "\n";
         cout << "----- DEBUG -----\n";
     #endif
@@ -211,8 +212,6 @@ int printRecord(struct record *start, char *uname)
 *Function name: printAllRecords
 *
 *DESCRIPTION: print the entire address book on the screen
-*
-*Paramaters: start: an array of record structures storing friends
 *
 *****************/
 void llist::printAll()
@@ -252,7 +251,7 @@ void llist::printAll()
 *DESCRIPTION: reverses the order of the entire address book
 *
 *****************/
-void reverse()
+void llist::reverse()
 {   
 
 /*    int totalPrints = 0;
@@ -372,16 +371,15 @@ int deleteRecord(struct record **start, char *uname)
 *Paramaters: start: an array of record structures storing friends, name: the name of the file to be written
 *
 *****************/
-void cleanup(struct record **start)
+void llist::cleanup(/*struct record **start*/)
 {
 
-    struct record *temp = *start;
+    struct record *temp = this->start;
     struct record *nextNode = NULL;
     
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
-        cout << "Called Function: cleanup(struct record **friend)\n";
-        cout << "struct record ** = " << start <<"\n";
+        cout << "Called Function: cleanup()\n";
         cout << "----- DEBUG -----\n";
     #endif   
 
@@ -394,7 +392,7 @@ void cleanup(struct record **start)
         temp = nextNode;        
     }
     
-    start = NULL;
+    this->start = NULL;
 
 }
 
@@ -403,8 +401,6 @@ void cleanup(struct record **start)
 *Function name: readfile
 *
 *DESCRIPTION: reads a files contents into a program
-*
-*Paramaters: start: pointer to an array of record structures storing friends, filename: the name of the file to be read
 *
 *****************/
 int llist::readfile()
@@ -428,10 +424,10 @@ int llist::readfile()
     char telno [20];
 
     int currVar = 0;
-    cout << "HALDO\n";
+
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
-        cout << "Called Function: readfile(struct record **, char *)\n";
+        cout << "Called Function: readfile()\n";
         cout << "----- DEBUG -----\n";
     #endif   
 
@@ -505,30 +501,28 @@ int llist::readfile()
 *Paramaters: start: an array of record structures storing friends, name: the name of the file to be written
 *
 *****************/
-void writefile(struct record *records, char *filename)
+int llist::writefile()
 {
 
-    struct record *temp = records;
+    struct record *temp = this->start;
 /*
     FILE *output;
     char *mode = "w";  
 
     output = fopen(filename, mode);*/
     ofstream output;
-    output.open(filename);
+    output.open(this->filename);
 
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
-        cout << "Called Function: writefile(struct record *, char *)\n";        
-        cout << "struct record * = " << records <<" \n";
-        cout << "char * = " << filename << "\n";
+        cout << "Called Function: writefile()\n";        
         cout << "----- DEBUG -----\n";
-    #endif  
+    #endif
 
     if ((temp) ==  NULL)
     {
         cout << "No linked list to write.\n";        
-        return;
+        return 0;
     }
 
     while ((temp) != NULL)
@@ -543,5 +537,5 @@ void writefile(struct record *records, char *filename)
 
     output.close();
     /*fclose(output);*/
-
+    return 0;
 }

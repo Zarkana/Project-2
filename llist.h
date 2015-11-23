@@ -16,12 +16,12 @@ class llist
 	public:
 		llist();
 		llist(char[]);
-		/*~llist();*/
+		~llist();
 		int addRecord(char[], char [], int, char []);
 		int printRecord(char[]);
 		int modifyRecord(char[], char [], char []);
 		void printAll();
-/*		int deleteRecord(char[]);
-		void reverse();*/
+/*		int deleteRecord(char[]);*/
+		void reverse();
 };
 #endif
