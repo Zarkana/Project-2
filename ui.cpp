@@ -75,7 +75,7 @@ int main( int argc, char *argv[])
           getfield(uaddr, 80);
               
           cout << "Enter year of birth: ";        
-          
+
           cin >> uyob;
 
 
@@ -107,7 +107,7 @@ int main( int argc, char *argv[])
            printRecord(start, uname);
            break;
        case 4:            
-            myllist.printAll();
+            myllist.printAll(start/*temporary*/);
 
             break; 
        case 5:

@@ -211,28 +211,28 @@ int printRecord(struct record *start, char *uname)
 *Paramaters: start: an array of record structures storing friends
 *
 *****************/
-void llist::printAll()
+void llist::printAll(struct record * start/*temporary*/)
 {   
 
     int totalPrints = 0;
     struct record * temp = start;
+    this->start = temp;
 
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
-        cout << "Called Function: printAllRecords(struct record *)\n";
-        cout << "struct record * = " << start <<" \n"; 
+        cout << "Called Function: printAllRecords(struct record *)\n";        
         cout << "----- DEBUG -----\n";
     #endif
 
-    cout << "Printing every record: \n";
+    cout << "\nPrinting every record: \n";
 
     cout << "the filename:" << this->filename << "\n";
 
-    while (temp != NULL)
+    while (this->start != NULL)
     {
         totalPrints++;
-        cout << "\nName: " << (*temp).name << "\nAddress:" << (*temp).address << "\nTel Number:" << (*temp).telno << "\nBirthyear:" << (*temp).yearofbirth << "\n";
-        temp = (*temp).next;
+        cout << "\nName: " << (*this->start).name << "\nAddress:" << (*this->start).address << "\nTel Number:" << (*this->start).telno << "\nBirthyear:" << (*this->start).yearofbirth << "\n";
+        this->start = (*this->start).next;
     }
 
     if(totalPrints == 0)
