@@ -112,7 +112,7 @@ int main( int argc, char *argv[])
    
           break;
        case 6:
-          
+          cout << "Reversing the list of records: \n";
           myllist.reverse();
           break;          
        case 7:

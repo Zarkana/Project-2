@@ -39,6 +39,7 @@ llist::llist(void)
     this->readfile();
 }
 
+
 /*****************
 *
 *Function name: llist
@@ -48,12 +49,20 @@ llist::llist(void)
 *Paramaters: name: the name of the file to be read and written
 *
 *****************/
-llist::llist(char *name)
+llist::llist(char *uname)
 {    
-    strcpy(this->filename, name);
+    #ifdef DEBUGMODE
+        cout << "\n----- DEBUG -----\n";
+        cout << "Called Function: llist(char *)\n";
+        cout << "name * = " << uname << "\n";
+        cout << "----- DEBUG -----\n";
+    #endif
+
+    strcpy(this->filename, uname);
     start = NULL;
     this->readfile();
 }
+
 
 /*****************
 *
@@ -63,9 +72,15 @@ llist::llist(char *name)
 *
 *****************/
 llist::~llist(){
+    #ifdef DEBUGMODE
+        cout << "\n----- DEBUG -----\n";
+        cout << "Called Function: ~llist()\n";
+        cout << "----- DEBUG -----\n";
+    #endif    
     this->writefile();    
     this->cleanup();
 };
+
 
 /*****************
 *
@@ -131,8 +146,7 @@ int llist::addRecord(char *uname, char *uaddr, int uyob, char *utelno)
 *
 *DESCRIPTION: modify only all records with the same name
 *
-*Paramaters: uname: the name of friend, address: the address of friend, telNumber: the number of the friend
-*             
+*Paramaters: uname: the name of friend, address: the address of friend, telNumber: the number of the friend 
 *
 *****************/
 int llist::modifyRecord(char *uname, char *uaddr, char *utelno)
@@ -168,6 +182,7 @@ int llist::modifyRecord(char *uname, char *uaddr, char *utelno)
     }
     return 0;
 }
+
 
 /*****************
 *
@@ -211,7 +226,6 @@ int llist::printRecord(char *uname)
 }
 
 
-
 /*****************
 *
 *Function name: printAllRecords
@@ -233,8 +247,6 @@ void llist::printAll()
 
     cout << "\nPrinting every record: \n";
 
-    cout << "the filename:" << this->filename << "\n";
-
     while (temp != NULL)
     {
         totalPrints++;
@@ -253,39 +265,52 @@ void llist::printAll()
 *
 *Function name: reverse
 *
-*DESCRIPTION: reverses the order of the entire address book
+*DESCRIPTION: public functions that calls private reverse
 *
 *****************/
 void llist::reverse()
-{   
-
+{
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
         cout << "Called Function: reverse()\n";
         cout << "----- DEBUG -----\n";
     #endif
 
-    cout << "Reversing the list of records: \n";
-/* 
-    struct Node* reverse(struct Node** head) 
-    {
-        Node *parent = *head;
-        Node *me = parent->next;
-        Node *child = me->next;
+    this->start = this->reverse(this->start);
+}
 
-     
-        parent->next = NULL;
-        while(child) {
-            me->next = parent;
-            parent = me;
-            me = child;
-            child = child->next;
-        }
-        me->next = parent;
-        *head = me;
-        return *head;
+
+/*****************
+*
+*Function name: reverse
+*
+*DESCRIPTION: private function that reverses the order of the entire address book
+*
+*Paramaters: record start of the linked list
+* 
+*****************/
+record * llist::reverse(record * start)
+{   
+
+    #ifdef DEBUGMODE
+        cout << "\n----- DEBUG -----\n";
+        cout << "Called Function: reverse(*start)\n";
+        cout << "Called Function: record * = " << start << "\n";
+        cout << "----- DEBUG -----\n";
+    #endif
+    
+    if (start->next == NULL) {
+        return start;
+    } 
+    else 
+    {
+        record* t = reverse(start->next);
+        start->next->next = start;
+        start->next = NULL;
+        return t;
     }
-*/}
+}
+
 
 /*****************
 *
@@ -393,6 +418,7 @@ void llist::cleanup()
     this->start = NULL;
 
 }
+
 
 /*****************
 *
@@ -524,4 +550,27 @@ int llist::writefile()
 
     output.close();
     return 0;
+}
+
+
+/*****************
+*
+*Function name: 
+*
+*DESCRIPTION: delete all records, including duplicates based on the name 
+*
+*Paramaters: uname: the name of friend 
+*
+*****************/
+ostream& operator<<(ostream& os, const llist&)
+{
+  // write obj to stream
+  return os;
+}
+std::istream& operator>>(std::istream& is, T& obj)
+{
+  // read obj from stream
+  if( /* T could not be constructed */ )
+    is.setstate(std::ios::failbit);
+  return is;
 }
