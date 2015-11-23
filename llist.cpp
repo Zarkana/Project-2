@@ -264,7 +264,6 @@ void llist::reverse()
     #endif
 
     cout << "Reversing the list of records: \n";
-
 /* 
     struct Node* reverse(struct Node** head) 
     {
@@ -303,8 +302,7 @@ int deleteRecord(struct record **start, char *uname)
 
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
-        cout << "Called Function: deleteRecord(struct record **, char *)\n";
-        cout << "struct record ** = " << start <<" \n";
+        cout << "Called Function: deleteRecord(char *)\n";
         cout << "char * = " << uname << "\n";
         cout << "----- DEBUG -----\n";
     #endif   
