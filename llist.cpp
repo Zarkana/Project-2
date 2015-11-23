@@ -36,6 +36,8 @@ using namespace std;
 llist::llist(void)
 {    
     strcpy(this->filename, "test.txt");
+    start = NULL;
+    this->readfile();
 }
 
 /*****************
@@ -50,6 +52,8 @@ llist::llist(void)
 llist::llist(char *name)
 {    
     strcpy(this->filename, name);
+    start = NULL;
+    this->readfile();
 }
 
 
@@ -64,7 +68,7 @@ llist::llist(char *name)
 *            yearofbirth: the friends year of birth, telNumber: the number of the friend 
 *
 *****************/
-int addRecord(struct record **start, char *uname, char *uaddr, int uyob, char *utelno)
+int llist::addRecord(char *uname, char *uaddr, int uyob, char *utelno)
 {
 
     #ifdef DEBUGMODE
@@ -79,17 +83,17 @@ int addRecord(struct record **start, char *uname, char *uaddr, int uyob, char *u
     #endif
 
     struct record *temp;
-    temp = *start;
+    temp = this->start;
 
-    if (*start ==  NULL)
+    if (this->start ==  NULL)
     {
-        *start = (struct record *) malloc(sizeof(struct record));
-        strcpy(((*(*start)).name), uname);
-        strcpy(((*(*start)).address), uaddr);
-        (*(*start)).yearofbirth = uyob;        
-        strcpy(((*(*start)).telno), utelno);
+        this->start = (struct record *) malloc(sizeof(struct record));
+        strcpy(((*(this->start)).name), uname);
+        strcpy(((*(this->start)).address), uaddr);
+        (*(this->start)).yearofbirth = uyob;        
+        strcpy(((*(this->start)).telno), utelno);
 
-        (*(*start)).next = NULL;
+        (*(this->start)).next = NULL;
     }
     else
     {
@@ -211,12 +215,11 @@ int printRecord(struct record *start, char *uname)
 *Paramaters: start: an array of record structures storing friends
 *
 *****************/
-void llist::printAll(struct record * start/*temporary*/)
+void llist::printAll()
 {   
 
     int totalPrints = 0;
-    struct record * temp = start;
-    this->start = temp;
+    struct record * temp = this->start;    
 
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
@@ -228,11 +231,11 @@ void llist::printAll(struct record * start/*temporary*/)
 
     cout << "the filename:" << this->filename << "\n";
 
-    while (this->start != NULL)
+    while (temp != NULL)
     {
         totalPrints++;
-        cout << "\nName: " << (*this->start).name << "\nAddress:" << (*this->start).address << "\nTel Number:" << (*this->start).telno << "\nBirthyear:" << (*this->start).yearofbirth << "\n";
-        this->start = (*this->start).next;
+        cout << "\nName: " << (*temp).name << "\nAddress:" << (*temp).address << "\nTel Number:" << (*temp).telno << "\nBirthyear:" << (*temp).yearofbirth << "\n";
+        temp = (*temp).next;
     }
 
     if(totalPrints == 0)
@@ -404,7 +407,7 @@ void cleanup(struct record **start)
 *Paramaters: start: pointer to an array of record structures storing friends, filename: the name of the file to be read
 *
 *****************/
-int readfile(struct record **records, char *filename)
+int llist::readfile()
 {
  /*
     FILE *input;
@@ -417,7 +420,7 @@ int readfile(struct record **records, char *filename)
 
     ifstream input;
     /*input = fopen(filename, mode);*/
-    input.open(filename, ios::in);
+    input.open(this->filename, ios::in);
 
     char name [100];
     char address [100];
@@ -425,12 +428,10 @@ int readfile(struct record **records, char *filename)
     char telno [20];
 
     int currVar = 0;
-
+    cout << "HALDO\n";
     #ifdef DEBUGMODE
         cout << "\n----- DEBUG -----\n";
         cout << "Called Function: readfile(struct record **, char *)\n";
-        cout << "struct record ** = " << records << "\n";
-        cout << "char * = " << filename << "\n";
         cout << "----- DEBUG -----\n";
     #endif   
 
@@ -461,7 +462,7 @@ int readfile(struct record **records, char *filename)
                     i = 0;
                     tab = 0;
                     currVar = 0;
-                    addRecord(records, name, address, yearofbirth, telno);
+                    this->addRecord(name, address, yearofbirth, telno);
                 }
             }
             else if ((inputChar == '\t' || tab == 1) && currVar == 1)/*If tab and collecting Address*/
@@ -486,7 +487,7 @@ int readfile(struct record **records, char *filename)
     }
     else
     {
-        cout << "\nThe file" << filename <<", is not in the current directory.\n";        
+        cout << "\nThe file" << this->filename <<", is not in the current directory.\n";        
     }
     
     input.close();

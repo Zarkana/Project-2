@@ -33,16 +33,14 @@ int main( int argc, char *argv[])
     int arg1;
     int isint;
 
-    llist myllist("crack.txt"); 
-
-    char filename[] = "test.txt";    
-
     int temp;
     int programEnd = 0;
 
-    struct record * start = NULL;
+    llist myllist("test.txt"); 
 
-    readfile(&start, filename);
+    char filename[] = "test.txt";        
+
+    /*readfile(filename);*/
 
     while(programEnd != 1){
         char prompt[] = "\nChoose one of the following,\n\t[1]Add a new record in the database\n\t[2]Modify a record in the database using the uname as the key\n\t[3]Print information about a record using the uname as the key\n\t[4]Print all information in the database\n\t[5]Delete an existing record from the database using the name as a key\n\t[6]Reverse the list\n\t[7]Quit the program\n"; 
@@ -82,7 +80,7 @@ int main( int argc, char *argv[])
           cout << "Enter phone number: ";              
           scanf("%s", &utelno);
 
-          addRecord(&start, uname, uaddr, uyob, utelno);   
+          myllist.addRecord(uname, uaddr, uyob, utelno);   
 
           break;
         case 2:
@@ -96,7 +94,7 @@ int main( int argc, char *argv[])
           cout << "Enter phone number: ";   
           scanf("%s", &utelno);
    
-          modifyRecord(start, uname, uaddr, utelno);
+          /*modifyRecord(start, uname, uaddr, utelno);*/
              
           break; 
        case 3:
@@ -104,23 +102,22 @@ int main( int argc, char *argv[])
 
           cin.getline(uname, 25);
 
-           printRecord(start, uname);
+           /*printRecord(start, uname);*/
            break;
        case 4:            
-            myllist.printAll(start/*temporary*/);
-
+            myllist.printAll();
             break; 
        case 5:
           cout << "Enter name: ";
 
           cin.getline(uname, 25);
       
-          deleteRecord(&start, uname);
+          /*deleteRecord(&start, uname);*/
    
           break;
        case 6:
           
-          reverse();
+          /*reverse();*/
           break;          
        case 7:
           /*End program*/
@@ -131,8 +128,8 @@ int main( int argc, char *argv[])
        
     }
 
-    writefile(start, filename); 
-    cleanup(&start);
+/*    writefile(start, filename); 
+    cleanup(&start);*/
 
     return 0;
 }

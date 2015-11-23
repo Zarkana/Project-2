@@ -20,7 +20,7 @@ class llist
 		int addRecord(char[], char [], int, char []);
 		int printRecord(char[]);
 		int modifyRecord(char[], char [], char []);
-		void printAll(struct record * /*temporary*/);
+		void printAll();
 /*		int deleteRecord(char[]);
 		void reverse();*/
 };
